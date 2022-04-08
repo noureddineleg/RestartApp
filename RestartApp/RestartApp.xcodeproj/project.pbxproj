@@ -55,8 +55,10 @@
 		164C22A82800F03B00F3014F /* RestartApp */ = {
 			isa = PBXGroup;
 			children = (
+				164C22C22800F68100F3014F /* Utilities */,
+				164C22C12800F67000F3014F /* Views */,
 				164C22A92800F03B00F3014F /* RestartAppApp.swift */,
-				164C22AB2800F03B00F3014F /* ContentView.swift */,
+				164C22C02800F62A00F3014F /* Screens */,
 				164C22AD2800F03D00F3014F /* Assets.xcassets */,
 				164C22AF2800F03D00F3014F /* Preview Content */,
 			);
@@ -79,6 +81,28 @@
 				164C22BD2800F48300F3014F /* success.m4a */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		164C22C02800F62A00F3014F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				164C22AB2800F03B00F3014F /* ContentView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		164C22C12800F67000F3014F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		164C22C22800F68100F3014F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
