@@ -15,6 +15,8 @@ struct OnboardingView: View {
     
     @State private var buttonWidth: Double = UIScreen.main.bounds.width - 80
     @State private var buttonOffSet: CGFloat = 0
+    @State private var isAnimating: Bool = false
+    @State private var imageOffSet: CGSize = .zero
     
     // MARK: - View
     
@@ -46,16 +48,49 @@ struct OnboardingView: View {
                     .padding(.horizontal, 10)
                     
                 } //: HEADER
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : -40)
+                .animation(.easeOut(duration: 1), value: isAnimating)
                 
                 // MARK: - Center
                 
                 ZStack {
                     CircleGroupView(shapeColor: .white, shapeOpacity: 0.2)
+                        .offset(x: imageOffSet.width * -1)
+                        .blur(radius: abs(imageOffSet.width / 5))
+                        .animation(.easeOut(duration: 1), value: imageOffSet)
+                    
                     Image("character-1")
                         .resizable()
                         .scaledToFit()
+                        .opacity(isAnimating ? 1 : 0)
+                        .animation(.easeOut(duration: 0.5), value: isAnimating)
+                        .offset(x: imageOffSet.width * 1.2, y: 0)
+                        .rotationEffect(.degrees(Double(imageOffSet.width / 20)))
+                        .gesture(
+                        DragGesture()
+                            .onChanged { gesture in
+                                if abs(imageOffSet.width) <= 150 {
+                                    imageOffSet = gesture.translation
+                                }
+                                
+                            }
+                            .onEnded { _ in
+                                imageOffSet = .zero
+                            }
+                        ) //: GESTURE
+                        .animation(.easeOut(duration: 1), value: imageOffSet)
                     
                 } //: CENTER
+                .overlay(
+                Image(systemName: "arrow.left.and.right.circle")
+                    .font(.system(size: 44, weight: .ultraLight))
+                    .foregroundColor(.white)
+                    .offset(y: 20)
+                    .opacity(isAnimating ? 1 : 0)
+                    .animation(.easeOut(duration: 1).delay(2), value: isAnimating)
+                , alignment: .bottom
+                )
                 
                 Spacer()
                 
@@ -111,11 +146,13 @@ struct OnboardingView: View {
                                     }
                                 }
                                 .onEnded { _ in
-                                    if buttonOffSet > buttonWidth / 2 {
-                                        buttonOffSet = buttonWidth - 80
-                                        isOnboardingViewActive = false
-                                    } else {
-                                        buttonOffSet = 0
+                                    withAnimation(Animation.easeOut(duration: 0.4)) {
+                                        if buttonOffSet > buttonWidth / 2 {
+                                            buttonOffSet = buttonWidth - 80
+                                            isOnboardingViewActive = false
+                                        } else {
+                                            buttonOffSet = 0
+                                        }
                                     }
                                 }
                         ) //: GESTURE
@@ -126,9 +163,15 @@ struct OnboardingView: View {
                 } //: FOOTER
                 .frame(width: buttonWidth, height: 80, alignment: .center)
                 .padding()
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : 40)
+                .animation(.easeOut(duration: 1), value: isAnimating)
                 
             } //: VSTACK
         } //: ZSTACK
+        .onAppear(perform: {
+            isAnimating = true
+        })
     }
     
 }
