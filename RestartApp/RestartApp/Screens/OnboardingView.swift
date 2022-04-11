@@ -133,7 +133,7 @@ struct OnboardingView: View {
                     HStack {
                         Capsule()
                             .fill(Color("ColorRed"))
-                            .frame(width: 80)
+                            .frame(width: buttonOffSet + 80)
                         
                         Spacer()
                     } //: HSTACK
@@ -163,6 +163,7 @@ struct OnboardingView: View {
                                 .onEnded { _ in
                                     withAnimation(Animation.easeOut(duration: 0.4)) {
                                         if buttonOffSet > buttonWidth / 2 {
+                                            playSound(sound: "chimeup", type: "mp3")
                                             buttonOffSet = buttonWidth - 80
                                             isOnboardingViewActive = false
                                         } else {
@@ -187,6 +188,7 @@ struct OnboardingView: View {
         .onAppear(perform: {
             isAnimating = true
         })
+        .preferredColorScheme(.dark)
     }
     
 }
